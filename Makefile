@@ -7,7 +7,9 @@ ifeq ($(TARGET), sunos)
 	CFLAGS += -D_PTHREADS -D_POSIX_C_SOURCE=200112L
 	LIBS   += -lsocket
 else ifeq ($(TARGET), darwin)
+ifneq ($(shell uname -m),arm64)
 	LDFLAGS += -pagezero_size 10000 -image_base 100000000
+endif
 	export MACOSX_DEPLOYMENT_TARGET := 10.12
 else ifeq ($(TARGET), linux)
 	CFLAGS  += -D_POSIX_C_SOURCE=200112L -D_BSD_SOURCE -D_DEFAULT_SOURCE

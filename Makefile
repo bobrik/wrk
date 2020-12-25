@@ -62,7 +62,8 @@ $(ODIR):
 
 $(ODIR)/bytecode.o: src/wrk.lua
 	@echo LUAJIT $<
-	@$(SHELL) -c 'PATH=obj/bin:$(PATH) luajit -b $(CURDIR)/$< $(CURDIR)/$@'
+	@$(SHELL) -c 'PATH=obj/bin:$(PATH) luajit -b $(CURDIR)/$< $(CURDIR)/$(patsubst %.o,%.c,$@)'
+	@$(CC) -xc -c -o $@ $(patsubst %.o,%.c,$@)
 
 $(ODIR)/version.o:
 	@echo 'const char *VERSION="$(VER)";' | $(CC) -xc -c -o $@ -
